@@ -81,22 +81,22 @@ abstract class Gorm_Service
 	{
 		$results = $this->_providers[$this->_default_provider]->select($this->_getIds($id));
 
-		if($convert === TRUE)
+		if($id === NULL)
 		{
-			$models = array();
-			$class = 'Model_'.ucfirst($this->_model);
-			$model = new $class();
-
-			foreach($results as $model_array)
-			{
-				$models[] = $model->set($model_array, TRUE);
-			}
-
-			return (count($models) == 1) ? $models[0] : $models;
+			return $results;
 		}
 		else
 		{
-			return (count($results) == 1) ? $results[0] : $results;
+			if($convert === TRUE)
+			{
+				$models = $this->convert_results($results);
+
+				return (count($models) == 1) ? $models[0] : $models;
+			}
+			else
+			{
+				return (count($results) == 1) ? $results[0] : $results;
+			}
 		}
 	}
 
@@ -168,5 +168,25 @@ abstract class Gorm_Service
 		}
 
 		return $model_ids;
+	}
+
+	/*
+	 * Convert a Result to models, Results should be handled like an array
+	 *
+	 * @param  mixed  $results
+	 * @return array
+	 */
+	public function convert_results($results)
+	{
+		$models = array();
+		$class = 'Model_'.ucfirst($this->_model);
+		$model = new $class();
+
+		foreach($results as $model_array)
+		{
+			$models[] = $model->set($model_array, TRUE);
+		}
+
+		return $models;
 	}
 }
