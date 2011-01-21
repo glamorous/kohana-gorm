@@ -28,7 +28,7 @@ abstract class Gorm_Service
 	 *
 	 * @param  mixed  $model
 	 */
-	public function __construct($model = NULL)
+	public function __construct($model = NULL, $default_provider = 'database')
 	{
 		// Set model
 		$class = ($model !== NULL) ? 'Model_'.ucfirst($model) : 'Model_'.strtolower(substr(get_class($this), 8));
@@ -44,10 +44,7 @@ abstract class Gorm_Service
 		}
 
 		// Set default provider to DB if it isn't set
-		if($this->_default_provider === NULL)
-		{
-			$this->_default_provider = 'database';
-		}
+		$this->_default_provider = $default_provider;
 
 		$provider = 'Service_Provider_'.ucfirst($this->_default_provider);
 
