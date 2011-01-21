@@ -148,7 +148,16 @@ abstract class Gorm_Model
 	 */
 	public function as_array($fields = NULL)
 	{
-		$fields = func_num_args() ? func_get_args() : $this->_fields;
+		if(func_num_args() > 1)
+		{
+			$fields = func_get_args();
+		}
+		elseif( ! is_array($fields) OR empty($fields))
+		{
+			$fields = $this->getFields();
+		}
+
+		$fields = array_intersect($fields, $this->getFields());
 		$result = array();
 
 		foreach($fields as $field)
