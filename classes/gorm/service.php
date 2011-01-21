@@ -187,10 +187,10 @@ abstract class Gorm_Service
 	{
 		$models = array();
 		$class = 'Model_'.ucfirst($this->_model);
-		$model = new $class();
 
 		foreach($results as $model_array)
 		{
+			$model = new $class();
 			$models[] = $model->set($model_array, TRUE);
 		}
 
