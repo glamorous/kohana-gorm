@@ -169,6 +169,24 @@ abstract class Gorm_Model
 		return $result;
 	}
 
+	/**
+	 * Returns a JSON-object with the values in the fields.
+	 *
+	 * You can pass a variable number of field names
+	 * to only retrieve those fields in the JSON-object:
+	 *
+	 *     $model->as_json('id', 'name', 'status');
+	 *
+	 * @param  string  $fields
+	 * @param  ...
+	 * @return json
+	 */
+	public function as_json($fields = NULL)
+	{
+		$fields = func_get_args();
+		return json_encode($this->as_array($fields));
+	}
+
 	/*
 	 * Set a model with an array with values
 	 *
