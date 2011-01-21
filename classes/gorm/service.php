@@ -127,7 +127,14 @@ abstract class Gorm_Service
 	 */
 	public function save(Gorm_Model $model)
 	{
-		return $this->_providers[$this->_default_provider]->save($model);
+		try
+		{
+			return $this->_providers[$this->_default_provider]->save($model);
+		}
+		catch(Database_Exception $ex)
+		{
+			throw new Gorm_Exception('Unable to save the model');
+		}
 	}
 
 	/*
