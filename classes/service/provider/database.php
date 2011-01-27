@@ -8,14 +8,20 @@
  */
 class Service_Provider_Database extends Service_Provider
 {
+	/**
+	* @var string database
+	*/
+	protected $_db;
+
 	/*
 	 * The constructor sets the model for all interactions with this instance
 	 *
 	 * @param string $model
 	 */
-	public function __construct($model)
+	public function __construct($model, $db = 'default')
 	{
 		parent::__construct($model);
+		$this->_db = $db;
 	}
 
 	/*
@@ -38,7 +44,7 @@ class Service_Provider_Database extends Service_Provider
 		}
 		else
 		{
-			$db_result = (count($id) == 1) ? $builder->where('id', '=', $id[0])->execute() : $builder->where('id', 'IN', implode(',',$id))->execute();
+			$db_result = (count($id) == 1) ? $builder->where('id', '=', $id[0])->execute($this->_db) : $builder->where('id', 'IN', implode(',',$id))->execute($this->_db);
 			return $db_result->as_array();
 		}
 	}
@@ -60,11 +66,11 @@ class Service_Provider_Database extends Service_Provider
 		}
 		elseif(count($id) == 1)
 		{
-			return $builder->where('id', '=', $id[0])->execute();
+			return $builder->where('id', '=', $id[0])->execute($this->_db);
 		}
 		else
 		{
-			return $builder->where('id', 'IN', implode(',',$id))->execute();
+			return $builder->where('id', 'IN', implode(',',$id))->execute($this->_db);
 		}
 	}
 
@@ -82,12 +88,12 @@ class Service_Provider_Database extends Service_Provider
 		if(empty($id))
 		{
 			$model_data = $model->as_array();
-			list($insert_id) = DB::insert($table, array_keys($model_data))->values(array_values($model_data))->execute();
+			list($insert_id) = DB::insert($table, array_keys($model_data))->values(array_values($model_data))->execute($this->_db);
 			return $insert_id;
 		}
 		else
 		{
-			return DB::update($table)->set($model->as_array())->where('id', '=', $model->getId())->execute();
+			return DB::update($table)->set($model->as_array())->where('id', '=', $model->getId())->execute($this->_db);
 		}
 	}
 
