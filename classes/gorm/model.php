@@ -14,6 +14,11 @@ abstract class Gorm_Model
 	protected $_model;
 
 	/**
+	 * @var  int  primary key
+	 */
+	protected $_primary_key = 'id';
+
+	/**
 	 * @var  bool  Loaded
 	 */
 	protected $_loaded = FALSE;
@@ -270,6 +275,7 @@ abstract class Gorm_Model
 			'table',
 			'ignored',
 			'loaded',
+			'primary_key',
 		);
 		return Arr::merge($this->_ignored, $core_ignore);
 	}
