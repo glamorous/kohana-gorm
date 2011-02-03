@@ -78,22 +78,23 @@ class Service_Provider_Database extends Service_Provider
 	 * Save the model trough the service
 	 *
 	 * @param   object $model
+	 * @param   bool   $force  Force to save NULL values when property isn't set
 	 * @return  mixed FALSE or $id;
 	 */
-	public function save(Gorm_Model $model)
+	public function save(Gorm_Model $model, $force = FALSE)
 	{
 		$table = $this->_model->getTable();
 		$id = $model->getId();
 		// Check if it's a new record (no id provided)
 		if(empty($id))
 		{
-			$model_data = $model->as_array();
+			$model_data = $model->to_save_fields($force);
 			list($insert_id) = DB::insert($table, array_keys($model_data))->values(array_values($model_data))->execute($this->_db);
 			return $insert_id;
 		}
 		else
 		{
-			return DB::update($table)->set($model->as_array())->where('id', '=', $model->getId())->execute($this->_db);
+			return DB::update($table)->set($model->to_save_fields($force))->where('id', '=', $model->getId())->execute($this->_db);
 		}
 	}
 

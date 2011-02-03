@@ -193,21 +193,47 @@ abstract class Gorm_Model
 	}
 
 	/**
-	 * Set a model with an array with values
+	 * Return fields to pass trough save method
 	 *
-	 * @param   $values
-	 * @return  $this
+	 * @param  bool  $force  When force is TRUE, NULL values will be included
+	 * @return json
 	 */
-	public function set($values = array(), $loaded = FALSE)
+	public function to_save_fields($force = FALSE)
 	{
-		$values = Arr::extract($values, $this->_fields);
-		foreach($values as $field => $value)
+		$fields = $this->getFields();
+		$saveble_fields = array();
+
+		foreach($fields as $field)
 		{
-			$method = 'set'.ucFirst($field);
-			$this->$method($value);
+			$property = '_'.strtolower($field);
+			$value = $this->$property;
+
+			if(($force OR ! empty($value)) AND $field !== 'id')
+			{
+				$saveble_fields[$field] = $value;
+			}
 		}
 
-		$this->_loaded = TRUE;
+		return $saveble_fields;
+	}
+
+	/**
+	 * Set a model with an array with values
+	 *
+	 * @param   array  $values
+	 * @return  $this
+	 */
+	public function set($values = array())
+	{
+		$set_values = Arr::extract($values, $this->getFields());
+		foreach($set_values as $field => $value)
+		{
+			if( ! empty($value))
+			{
+				$method = 'set'.ucFirst($field);
+				$this->$method($value);
+			}
+		}
 
 		return $this;
 	}
@@ -218,12 +244,13 @@ abstract class Gorm_Model
 	 * If an $id is passed the model will be assumed to exist
 	 * and an update will be executed, even if the model isn't loaded().
 	 *
+	 * @param   bool   $force  Force saving NULL values when a property isn't set
 	 * @return  $this
 	 **/
-	public function save()
+	public function save($force = FALSE)
 	{
 		$service = $this->_getService();
-		return $service->save($this);
+		return $service->save($this, $force);
 	}
 
 	/**

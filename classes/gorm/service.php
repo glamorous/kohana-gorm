@@ -126,14 +126,15 @@ abstract class Gorm_Service
 	 * Save the model trough the service
 	 *
 	 * @param  mixed  $model
+	 * @param  bool   $force  Force to save NULL values when property from a field isn't set
 	 * @return int    insert id for creating a model
 	 * @return int    number of affected rows;
 	 */
-	public function save(Gorm_Model $model)
+	public function save(Gorm_Model $model, $force = FALSE)
 	{
 		try
 		{
-			return $this->_providers[$this->_default_provider]->save($model);
+			return $this->_providers[$this->_default_provider]->save($model, $force);
 		}
 		catch(Database_Exception $ex)
 		{
