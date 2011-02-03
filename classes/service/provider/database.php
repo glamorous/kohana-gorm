@@ -44,7 +44,7 @@ class Service_Provider_Database extends Service_Provider
 		}
 		else
 		{
-			$db_result = (count($id) == 1) ? $builder->where('id', '=', $id[0])->execute($this->_db) : $builder->where('id', 'IN', implode(',',$id))->execute($this->_db);
+			$db_result = (count($id) == 1) ? $builder->where('id', '=', $id[0])->execute($this->_db) : $builder->where('id', 'IN', $id)->execute($this->_db);
 			return $db_result->as_array();
 		}
 	}
@@ -70,7 +70,7 @@ class Service_Provider_Database extends Service_Provider
 		}
 		else
 		{
-			return $builder->where('id', 'IN', implode(',',$id))->execute($this->_db);
+			return $builder->where('id', 'IN', $id)->execute($this->_db);
 		}
 	}
 
