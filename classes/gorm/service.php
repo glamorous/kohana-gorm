@@ -84,16 +84,10 @@ abstract class Gorm_Service
 		}
 		else
 		{
-			if($convert === TRUE)
-			{
-				$models = $this->convert_results($results);
+			$one_item = (is_array($id)) ? FALSE : TRUE;
+			$models = ($convert === TRUE) ? $this->convert_results($results) : $results;
 
-				return (count($models) == 1) ? $models[0] : $models;
-			}
-			else
-			{
-				return (count($results) == 1) ? $results[0] : $results;
-			}
+			return ($one_item === TRUE AND count($models) == 1) ? $models[0] : $models;
 		}
 	}
 
