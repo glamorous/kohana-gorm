@@ -24,14 +24,27 @@ abstract class Gorm_Service
 	protected $_default_provider;
 
 	/**
+	 * @var  object  custom Service
+	 */
+	protected $_custom_service;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param  mixed  $model
 	 */
 	public function __construct($model = NULL, $default_provider = 'database')
 	{
+		$service_class = 'Service_'.ucfirst($model);
+
+		// Check if a custom service exists and set it
+		if(class_exists($service_class))
+		{
+			$this->_custom_service = new $service_class;
+		}
 		// Set model
-		$class = ($model !== NULL) ? 'Model_'.ucfirst($model) : 'Model_'.strtolower(substr(get_class($this), 8));
+		$model = ($model === NULL) ? strtolower(substr(get_class($this), 8)) : $model;
+		$class = 'Model_'.ucfirst($model);
 
 		// Check if the model exists
 		if(class_exists($class))
@@ -186,5 +199,27 @@ abstract class Gorm_Service
 		}
 
 		return $models;
+	}
+
+	/**
+	 * Magic method __call()
+	 *
+	 * When calling a method that doesn't exist, the Service class will try
+	 * to call the method from the custom service
+	 *
+	 * @param   string  $name
+	 * @return  mixed
+	 */
+	public function __call($name, $arguments)
+	{
+		// Check if a custom service exists
+		if($this->_custom_service instanceof Service)
+		{
+			return $this->_custom_service->$name($arguments);
+		}
+		else
+		{
+			throw new Gorm_Exception('The method `:name` isn\'t supported in the Service', array(':name' => $name));
+		}
 	}
 }
