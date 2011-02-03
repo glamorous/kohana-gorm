@@ -13,7 +13,7 @@ class Service_Provider_Database extends Service_Provider
 	*/
 	protected $_db;
 
-	/*
+	/**
 	 * The constructor sets the model for all interactions with this instance
 	 *
 	 * @param string $model
@@ -24,7 +24,7 @@ class Service_Provider_Database extends Service_Provider
 		$this->_db = $db;
 	}
 
-	/*
+	/**
 	 * Select one or more models trough the service
 	 *
 	 * @param  array  $id
@@ -49,7 +49,7 @@ class Service_Provider_Database extends Service_Provider
 		}
 	}
 
-	/*
+	/**
 	 * Select one or more models trough the service
 	 *
 	 * @param  array $id
@@ -74,7 +74,7 @@ class Service_Provider_Database extends Service_Provider
 		}
 	}
 
-	/*
+	/**
 	 * Save the model trough the service
 	 *
 	 * @param   object $model
@@ -97,7 +97,7 @@ class Service_Provider_Database extends Service_Provider
 		}
 	}
 
-	/*
+	/**
 	 * Create array with for each column an array(column, alias)
 	 *
 	 * @param   string  $table

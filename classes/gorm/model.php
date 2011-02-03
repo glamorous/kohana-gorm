@@ -121,7 +121,7 @@ abstract class Gorm_Model
 		}
 	}
 
-	/*
+	/**
 	 * Magic method __get
 	 */
 	public function __get($name)
@@ -130,7 +130,7 @@ abstract class Gorm_Model
 		$this->$method();
 	}
 
-	/*
+	/**
 	 * Magic method __set
 	 */
 	public function __set($name, $value)
@@ -192,7 +192,7 @@ abstract class Gorm_Model
 		return json_encode($this->as_array($fields));
 	}
 
-	/*
+	/**
 	 * Set a model with an array with values
 	 *
 	 * @param   $values
@@ -246,7 +246,7 @@ abstract class Gorm_Model
 		}
 	}
 
-	/*
+	/**
 	 * Get the service for this model
 	 *
 	 * @return  object  Service
@@ -261,7 +261,7 @@ abstract class Gorm_Model
 		return $this->_service;
 	}
 
-	/*
+	/**
 	 * Get all ignored fields
 	 *
 	 * @return array
@@ -280,7 +280,7 @@ abstract class Gorm_Model
 		return Arr::merge($this->_ignored, $core_ignore);
 	}
 
-	/*
+	/**
 	 * Get model shortname
 	 *
 	 * @return string
@@ -290,7 +290,7 @@ abstract class Gorm_Model
 		return $this->_model;
 	}
 
-	/*
+	/**
 	 * Get model tablename
 	 *
 	 * @return string
@@ -300,7 +300,7 @@ abstract class Gorm_Model
 		return $this->_table;
 	}
 
-	/*
+	/**
 	 * Get model fields
 	 *
 	 * @return string

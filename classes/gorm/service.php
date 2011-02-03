@@ -59,7 +59,7 @@ abstract class Gorm_Service
 		}
 	}
 
-	/*
+	/**
 	 * Select one or more models trough the service
 	 *		$id can be different values:
 	 *			- one ID as integer
@@ -91,7 +91,7 @@ abstract class Gorm_Service
 		}
 	}
 
-	/*
+	/**
 	 * Select one or more models trough the service
 	 *		$id can be different values:
 	 *			- one ID as integer
@@ -109,7 +109,7 @@ abstract class Gorm_Service
 		return $this->_providers[$this->_default_provider]->delete($this->_getIds($id));
 	}
 
-	/*
+	/**
 	 * Save the model trough the service
 	 *
 	 * @param  mixed  $model
@@ -128,7 +128,7 @@ abstract class Gorm_Service
 		}
 	}
 
-	/*
+	/**
 	 * Check if $id is a Model, array, integer, ... and returns an array with the id's
 	 *
 	 * @param  mixed  $id
@@ -168,7 +168,7 @@ abstract class Gorm_Service
 		return $model_ids;
 	}
 
-	/*
+	/**
 	 * Convert a Result to models, Results should be handled like an array
 	 *
 	 * @param  mixed  $results
