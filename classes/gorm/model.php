@@ -221,9 +221,10 @@ abstract class Gorm_Model
 	 * Set a model with an array with values
 	 *
 	 * @param   array  $values
+	 * @param   bool   $loaded  Flag the model as loaded (default FALSE)
 	 * @return  $this
 	 */
-	public function set($values = array())
+	public function set($values = array(), $loaded = FALSE)
 	{
 		$set_values = Arr::extract($values, $this->getFields());
 		foreach($set_values as $field => $value)
@@ -234,6 +235,8 @@ abstract class Gorm_Model
 				$this->$method($value);
 			}
 		}
+
+		$this->_loaded = $loaded;
 
 		return $this;
 	}
